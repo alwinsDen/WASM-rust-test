@@ -17,6 +17,12 @@ extern "C" {
     fn log_many(a: &str, b: &str);
 }
 
+// create a test log function
+#[wasm_bindgen]
+pub fn test_logger(){
+    log("Synchronous load test");
+}
+
 //here we test 'em out
 fn bare_bones() {
     log("test 1");
@@ -24,7 +30,7 @@ fn bare_bones() {
     log_many("alwin", "cool")
 }
 
-//loggging using a macro
+//logging using a macro
 macro_rules! console_log {
     ($($t:tt)*) => (log(&format_args!($($t)*).to_string()))
 }
