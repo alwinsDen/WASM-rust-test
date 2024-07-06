@@ -13,6 +13,10 @@ Install the wasm-pack using Cargo:
 ```commandline
 cargo install wasm-pack
 ```
+For **Linux** users additionally need:
+```commandline
+rustup target add wasm32-unknown-unknown
+```
 
 ## Building the WASM binary web target
 Use wasm-pack to build the WASM binary targeting the web:

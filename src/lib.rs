@@ -7,7 +7,7 @@ fn run() {
     using_a_macro();
 
     //test out the classes in JS module
-    log(&format!("{}",name()));
+    log(&format!("{}", name()));
     let mod_test = TestClass::new();
     assert_eq!(mod_test.number(), 42);
     mod_test.set_number(100);
@@ -16,39 +16,39 @@ fn run() {
 
 // draft and use external functions.
 // non_browser_js.js contains sample functions.
-#[wasm_bindgen(module="/non_browser_js.js")]
-extern "C"{
+#[wasm_bindgen(module = "/non_browser_js.js")]
+extern "C" {
     fn name() -> String;
     type TestClass;
 
     #[wasm_bindgen(constructor)]
-    fn new()->TestClass;
+    fn new() -> TestClass;
 
     #[wasm_bindgen(method, getter)]
-    fn number(this:&TestClass)->u32;
+    fn number(this: &TestClass) -> u32;
 
     #[wasm_bindgen(method, setter)]
-    fn set_number(this:&TestClass, n: u32)->TestClass;
+    fn set_number(this: &TestClass, n: u32) -> TestClass;
 
     #[wasm_bindgen(method)]
-    fn render(this:&TestClass)->String;
+    fn render(this: &TestClass) -> String;
 }
 
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(js_namespace=console)]
+    #[wasm_bindgen(js_namespace = console)]
     fn log(s: &str);
 
-    #[wasm_bindgen(js_namespace=console, js_name=log)]
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
     fn log_u32(a: u32);
 
-    #[wasm_bindgen(js_namespace=console, js_name=log)]
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
     fn log_many(a: &str, b: &str);
 }
 
 // create a test log function
 #[wasm_bindgen]
-pub fn test_logger(){
+pub fn test_logger() {
     log("Synchronous load test");
 }
 
@@ -67,4 +67,35 @@ macro_rules! console_log {
 fn using_a_macro() {
     console_log!("Hello {}!", "there");
     console_log!("this is a log test");
+}
+
+//working with char_type
+#[wasm_bindgen]
+#[derive(Debug)]
+pub struct Counter {
+    key: char,
+    count: i32,
+}
+
+#[wasm_bindgen]
+impl Counter {
+    pub fn new(key: char, count: i32) -> Counter {
+        log(&format!("Counter::new({} {})", key, count));
+        return Counter { key, count };
+    }
+    pub fn key(&self) -> char {
+        log("Counter.key()");
+        return self.key;
+    }
+    pub fn count(&self) -> i32 {
+        log("Counter.count()");
+        return self.count;
+    }
+    pub fn increment(&mut self) {
+        log("Count has been incremented.");
+        self.count += 1;
+    }
+    pub fn update_key(&mut self, key: char) {
+        self.key = key;
+    }
 }
