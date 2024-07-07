@@ -15,6 +15,11 @@ cargo install wasm-pack
 ```
 
 ## Building the WASM binary web target
+For NPM users [post-building]:
+```commandline
+yarn run serve
+```
+
 Use wasm-pack to build the WASM binary targeting the web:
 ```commandline
 wasm-pack build --target web
