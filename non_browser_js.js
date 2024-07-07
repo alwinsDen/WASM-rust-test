@@ -1,6 +1,6 @@
 //test export function
 export function name(){
-    return "Messag from independent Rust module";
+    return "Message from independent Rust module";
 }
 
 export class TestClass {
